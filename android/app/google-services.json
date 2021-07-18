@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "540250091156",
+    "project_id": "avaliacao-medica-1a9a9",
+    "storage_bucket": "avaliacao-medica-1a9a9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:540250091156:android:c2edd2f4cc101d1768ce81",
+        "android_client_info": {
+          "package_name": "br.com.souza.avaliacao_medica"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "540250091156-c8q4t5b2vdi98qplr9k1k9kbbbge5lji.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAntiiRuOIigwXtbETOu-0s9OrivwJfP0Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "540250091156-c8q4t5b2vdi98qplr9k1k9kbbbge5lji.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
