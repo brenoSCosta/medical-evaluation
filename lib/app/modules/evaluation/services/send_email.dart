@@ -1,88 +1,41 @@
-import 'dart:io';
+import 'dart:convert';
 
 import 'package:avaliacao_medica/app/modules/evaluation/models/evaluation.dart';
-import 'package:avaliacao_medica/app/modules/evaluation/services/pdf_editor.dart';
 import 'package:flutter/material.dart';
-import 'package:mailer/mailer.dart';
-import 'package:mailer/smtp_server.dart';
+import 'package:http/http.dart' as http;
 
-String username = 'avaliacoesmedicas@gmail.com';
-String password = 'rtssap2K@@';
-// ignore: deprecated_member_use
-final smtpServer = gmail(username, password);
+Future sendEmail({required Evaluation evaluation}) async {
+  final url = Uri.parse("https://api.emailjs.com/api/v1.0/email/send");
+  final response = await http.post(url, headers: {
+    'origin': 'http://localhost',
+    'Content-type': 'application/json',
+  }, body: json.encode({
+    'service_id': 'service_oje00s9',
+    'template_id': 'template_rj8xacb',
+    'user_id': 'eT0iZP3HgAHErjc7P',
+    'template_params': {
+      'name': evaluation.name,
+      'email': evaluation.email,
+      'sms': evaluation.sms,
+      'day': evaluation.dateNasc.day,
+      'month': evaluation.dateNasc.month,
+      'year': evaluation.dateNasc.year,
+      'gender': evaluation.gender,
+      'race': evaluation.race,
+      'weight': evaluation.weight,
+      'height': evaluation.height,
+      'circumferenceWaist': evaluation.circumferenceWaist,
+      'circumferenceHip': evaluation.circumferenceHip,
+      'highPressure': evaluation.highPressure ? 'sim' : 'não',
+      'bloodPressure': evaluation.bloodPressure,
+      'cholesterol': evaluation.cholesterol,
+      'triglycerides':evaluation.triglycerides,
+      'diabetic': evaluation.diabetic ? 'sim' : 'não',
+      'glicemia': evaluation.glicemia,
+      'reactiveProteinC': evaluation.reactiveProteinC,
+      'imc': evaluation.imc
 
-sendMail(
-    Evaluation evaluation, String emailToSend, BuildContext context) async {
-  String response = '';
-  creatPdf(evaluation).then((value) async {
-    final message = Message()
-      ..from = Address(username, 'Avaliações Médicas App')
-      ..recipients.add(emailToSend)
-      ..subject = 'Avaliação Médica'
-      ..attachments.add(FileAttachment(File(value)))
-      ..text = 'This is the plain text.\nThis is line 2 of the text part.'
-      ..html = "<h1>Avaliação Médica de ${evaluation.name}</h1>"
-          "<p>Nome: ${evaluation.name}</p> <p>Email: ${evaluation.email}</p>"
-          "<p>Telefone: ${evaluation.sms}</p>"
-          "<p>Data de nascimento: ${evaluation.dateNasc.day}/${evaluation.dateNasc.month}/${evaluation.dateNasc.year} </p>"
-          "<p>Gênero: ${evaluation.gender} </p>"
-          "<p>Raça: ${evaluation.race} </p>"
-          "<p>Peso: ${evaluation.weight} </p>"
-          "<p>Altura: ${evaluation.height} </p>"
-          "<p>Circunferência da Cintura: ${evaluation.circumferenceWaist} </p>"
-          "<p>Circunferência do Quadril: ${evaluation.circumferenceHip} </p>"
-          "<p>Possui pressão alta: ${evaluation.highPressure ? 'sim' : 'não'} </p>"
-          "<p>Pressão Arterial Sistólica: ${evaluation.bloodPressure} </p>"
-          "<p>Valor do Colesterol HDL: ${evaluation.cholesterol} </p>"
-          "<p>Valor do Triglicérides: ${evaluation.triglycerides} </p>"
-          "<p>Diabético: ${evaluation.diabetic ? 'sim' : 'não'} </p>"
-          "<p>Valor da Glicemia em Jejum: ${evaluation.glicemia} </p>"
-          "<p>Valor da Proteína C Reativa ultrassensível: ${evaluation.reactiveProteinC} </p>"
-          "<p>Imc: ${evaluation.imc} </p>";
-
-    try {
-      final sendReport = await send(message, smtpServer);
-      print('Message sent: ' + sendReport.toString());
-      sendEmailConfirmation(evaluation);
-      response = 'sucess';
-    } on MailerException catch (e) {
-      print('Message not sent.');
-      response = 'error';
-      for (var p in e.problems) {
-        print('Problem: ${p.code}: ${p.msg}');
-      }
     }
-
-    var connection = PersistentConnection(smtpServer);
-
-    // await connection.send(message);
-
-    await connection.close();
-    return response;
-  });
-}
-
-sendEmailConfirmation(Evaluation evaluation) async {
-  final message = Message()
-    ..from = Address(username, 'Avaliações Médicas App')
-    ..recipients.add(evaluation.email)
-    ..subject = 'Avaliação Médica'
-    ..html = "<h1>${evaluation.name} sua avaliação foi enviada com sucesso</h1>"
-        "<p>Sua avaliação foi enviada com sucesso para o médico em questão.</p>";
-
-  try {
-    final sendReport = await send(message, smtpServer);
-    print('Message sent: ' + sendReport.toString());
-  } on MailerException catch (e) {
-    print('Message not sent.');
-    for (var p in e.problems) {
-      print('Problem: ${p.code}: ${p.msg}');
-    }
-  }
-
-  var connection = PersistentConnection(smtpServer);
-
-  // await connection.send(message);
-
-  await connection.close();
+  }));
+  print(response.body);
 }

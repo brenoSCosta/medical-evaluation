@@ -744,8 +744,7 @@ class EvaluationPageState extends State<EvaluationPage> {
                               .addEvalution(evalutionTemp)
                               .then((value) {
                             if (value == 'sucess') {
-                              sendMail(evalutionTemp, 'brenosouza49@gmail.com',
-                                  context);
+                              sendEmail(evaluation: evalutionTemp);
                               AwesomeDialog(
                                 context: context,
                                 dialogType: DialogType.SUCCES,
@@ -755,9 +754,7 @@ class EvaluationPageState extends State<EvaluationPage> {
                                     'Avaliação enviada para o email do médico.'
                                     ' Verifique seu email para a confirmação de envio',
                                 btnOkColor: colorsProject.primaryColor,
-                                btnOkOnPress: () {
-                                  Modular.to.pop();
-                                },
+                                btnOkOnPress: () {},
                               )..show();
                             } else {
                               AwesomeDialog(

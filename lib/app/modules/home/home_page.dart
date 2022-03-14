@@ -1,10 +1,6 @@
 import 'package:avaliacao_medica/app/modules/evaluation/components/button_rounded_custom.dart';
 import 'package:avaliacao_medica/app/modules/evaluation/components/header_home.dart';
-import 'package:avaliacao_medica/app/modules/evaluation/models/evaluation.dart';
-import 'package:avaliacao_medica/app/modules/evaluation/repositories/evaluation_repository.dart';
-import 'package:avaliacao_medica/app/modules/evaluation/services/send_email.dart';
 import 'package:avaliacao_medica/app/styleguide/colors.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'home_store.dart';
@@ -12,7 +8,8 @@ import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
 
 class HomePage extends StatefulWidget {
   final String title;
-  const HomePage({Key? key, this.title = "Home"}) : super(key: key);
+
+  const HomePage({Key? key, this.title = "Home", google}) : super(key: key);
 
   @override
   _HomePageState createState() => _HomePageState();
@@ -66,7 +63,7 @@ class _HomePageState extends ModularState<HomePage, HomeStore> {
                       Padding(
                         padding: EdgeInsets.only(top: 20),
                         child: ButtonRoundedCustom(
-                          'Iniciar Avaliação',
+                          'Acessar com google',
                           200,
                           60,
                           () {
