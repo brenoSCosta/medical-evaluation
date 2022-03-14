@@ -1,7 +1,5 @@
 import 'dart:convert';
-
 import 'package:avaliacao_medica/app/modules/evaluation/models/evaluation.dart';
-import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 Future sendEmail({required Evaluation evaluation}) async {
